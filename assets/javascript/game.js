@@ -11,65 +11,59 @@ let guessIndex = 0;
 let wins = 0;
 let losses = 0;
 let ranNumber;
-
-//pick random number
-function random() {
-    ranNumber = Math.floor(Math.random()*26)
-}
+let computerChoice;
 
 //guesses left function
 function guessesLeft() {
     $("left").innerHTML = left
 }
-//call the function to show on the page
-guessesLeft()
 
 //wins function
 function winsScore() {
     $("wins").innerHTML = wins
 }
-//call the function to show on the page
-winsScore()
 
 //losses functin
 function lossesScore() {
     $("losses").innerHTML = losses
 }
-//call the function to show on the page
-lossesScore()
 
 // resent function
-function reset() {
+function initialGame() {
     left = 9;
     guess = [];
     guessIndex = 0;
     $("guess").innerHTML = "";
+    ranNumber = Math.floor(Math.random()*26);
+    computerChoice = choices[ranNumber]
+    guessesLeft()
 }
+
+// call initial function
+initialGame()
+winsScore()
+lossesScore()
 
 //user choice function
 document.onkeyup = function(event) {
     let userChoice = event.key.toLowerCase();
-    random()
-    let computerChoice = choices[ranNumber]
 
     if (userChoice === computerChoice) {
         wins++
         winsScore()
-        reset()
-        guessesLeft()
+        initialGame()
     } else {
         left--
         if (left < 1) {
-            reset()
+            initialGame()
             losses++
             lossesScore()
         } else {
             guess.push(userChoice)
             $("guess").innerHTML += guess[guessIndex] + ", "
             guessIndex++
+            guessesLeft()
         }
-
-        guessesLeft()
     }
 }
 
